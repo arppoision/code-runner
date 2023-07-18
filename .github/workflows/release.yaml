@@ -122,13 +122,12 @@ jobs:
         run: |
           cd ~/work || exit 1
           git clone https://proffapt:${PAT}@github.com/proffapt/homebrew-brewtap
-          ls ~/work
 
       - name: Updating the tap
         run: |
           # A few varaibles
           repo_name=$(basename $(git config --get remote.origin.url))
-          latest_tag= $(git describe --tags)
+          latest_tag=$(git describe --tags)
           # latest_tag=$(cat release_tag.txt)
           zip_file="${latest_tag}.tar.gz"
           rb_file="~/work/homebrew-brewtap/${repo_name}.rb"
@@ -141,7 +140,7 @@ jobs:
           rm "$zip_file"
           
           # Updating the *.rb file
-          ls ~/work
+          ls ~/work/homebrew-brewtap
           sed -i "s/tags\/v.*/tags\/"$zip_file"\"/g" "$rb_file"
           sed -i "s/.*sha256.*/  sha256 \"${checksum}\"/g" "$rb_file"
           cat "$rb_file"
