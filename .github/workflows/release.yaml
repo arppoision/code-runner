@@ -130,7 +130,7 @@ jobs:
           latest_tag=$(git describe --tags)
           # latest_tag=$(cat release_tag.txt)
           zip_file="${latest_tag}.tar.gz"
-          rb_file="~/work/homebrew-brewtap/${repo_name}.rb"
+          rb_file=$(echo "~/work/homebrew-brewtap/${repo_name}.rb")
           
           # Getting the checksum
           rm -f "$zip_file"
