@@ -140,7 +140,8 @@ jobs:
           rm "$zip_file"
           
           # Updating the *.rb file
-          ls ~/work/homebrew-brewtap
+          cat ~/work/homebrew-brewtap/code-runner.rb
+          cat "$rb_file"
           sed -i "s/tags\/v.*/tags\/"$zip_file"\"/g" "$rb_file"
           sed -i "s/.*sha256.*/  sha256 \"${checksum}\"/g" "$rb_file"
           cat "$rb_file"
