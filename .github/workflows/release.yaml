@@ -126,23 +126,31 @@ jobs:
       - name: Updating the tap
         run: |
           # A few varaibles
-          repo_name="basename $(git config --get remote.origin.url)"
+          repo_name=$(basename $(git config --get remote.origin.url))
+          echo "$repo_name"
           latest_tag=$(cat release_tag.txt)
+          echo "$latest_tag"
           zip_file="${latest_tag}.tar.gz"
+          echo "$zip_file"
           rb_file="~/work/homebrew-brewtap/${repo_name}.rb"
+          echo "$rb_file"
           
           # Getting the checksum
           rm -f "$zip_file"
           wget -q https://github.com/proffapt/${repo_name}/archive/refs/tags/${zip_file}
+          ls "$zip_file"
           checksum=$(shasum -a 256 ${latest_tag}.tar.gz | cut -d ' ' -f1)
+          echo "$checksum"
           rm "$zip_file"
           
           # Updating the *.rb file
           sed -i "s/tags\/v.*/tags\/"$zip_file"\"/g" "$rb_file"
           sed -i "s/.*sha256.*/  sha256 \"${checksum}\"/g" "$rb_file"
+          cat "$rb_file"
 
       - name: Pushing changes to remote tap
         run: |
           cd ~/work/homebrew-brewtap || exit 1
           git add ${repo_name}.rb
           git commit -m "add-release${repo_name}: ${latest_tag}"
+          git push origin $(git branch --show-current)
