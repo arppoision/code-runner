@@ -130,7 +130,7 @@ jobs:
           latest_tag=$(git describe --tags)
           # latest_tag=$(cat release_tag.txt)
           zip_file="${latest_tag}.tar.gz"
-          rb_file=$(echo "~/work/homebrew-brewtap/${repo_name}.rb")
+          rb_file="$HOME/work/homebrew-brewtap/${repo_name}.rb"
           
           # Getting the checksum
           rm -f "$zip_file"
@@ -140,7 +140,6 @@ jobs:
           rm "$zip_file"
           
           # Updating the *.rb file
-          cat ~/work/homebrew-brewtap/code-runner.rb
           cat "$rb_file"
           sed -i "s/tags\/v.*/tags\/"$zip_file"\"/g" "$rb_file"
           sed -i "s/.*sha256.*/  sha256 \"${checksum}\"/g" "$rb_file"
